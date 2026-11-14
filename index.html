@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dicionario de Dados | Cosmetico Altivez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-brand">
+      <button id="sidebar-toggle" class="icon-btn mobile-only" aria-label="Alternar menu lateral">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="brand-titles">
+        <span class="brand-kicker">Governanca de Dados e Catalogo de Metadados</span>
+        <h1>Sistema de Gestao Operacional e Vendas — Cosmetico Altivez</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="tech-badge"><i class="fa-solid fa-database"></i> MySQL 8.0 (InnoDB)</span>
+      <button id="theme-toggle" class="btn-theme" type="button" aria-label="Alternar tema claro e escuro">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+        <span id="theme-label">Modo Escuro</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Tabelas do Sistema</h2>
+        <span id="table-count-badge" class="count-badge">13</span>
+      </div>
+      <nav aria-label="Navegacao das tabelas">
+        <ul id="sidebar-nav" class="sidebar-nav"></ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="project-overview card" aria-label="Visao geral e governanca do projeto">
+        <div class="overview-grid">
+          <div class="overview-block">
+            <h2>Escopo do Projeto</h2>
+            <p>
+              Base relacional MySQL 8.0 (InnoDB) do sistema de gestao operacional e vendas da
+              <strong>Cosmetico Altivez Comercio de Produtos de Beleza Ltda.</strong>, cobrindo vendas presenciais e
+              nao presenciais (teleatendimento/WhatsApp com entrega). Integra 7 modulos: usuarios e perfis RBAC,
+              clientes e enderecos (LGPD), catalogo com lote/validade ANVISA e historico de precos, estoque,
+              pedidos com preco congelado e alcada de desconto, cancelamento com estorno (7 dias, CDC) e auditoria
+              imutavel, com retencao fiscal de 5 anos (CTN) e conformidade com o Marco Civil da Internet.
+            </p>
+          </div>
+          <div class="overview-meta">
+            <div class="meta-item">
+              <span class="meta-label">Tecnologia</span>
+              <span class="meta-value">MySQL 8.0 (Engine InnoDB)</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Professor Orientador</span>
+              <span class="meta-value">Prof. Dr. Diego Carvalho</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Data Owners &amp; Data Stewards</span>
+              <ul class="stewards-list">
+                <li>Hiago Rocha de Melo (RGM 48986836) — Arquitetura de Dados e Seguranca</li>
+                <li>Kalil Ian Rodrigues (RGM 46939822) — Requisitos, Regras de Negocio e LGPD</li>
+                <li>Matheus Cardoso Sena (RGM 48214060) — Lideranca Tecnica e Modelagem</li>
+                <li>Matheus Silva Melo (RGM 48069841) — Arquitetura de Dados e Auditoria</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="control-panel card" aria-label="Controles do dicionario de dados">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Filtrar por nome da tabela ou nome da coluna (ex: cpf_cnpj, pedido, preco)..."
+            aria-label="Filtrar tabelas e colunas"
+          >
+          <span id="search-stats" class="search-stats">13 tabelas | 107 atributos</span>
+        </div>
+        <div class="control-buttons">
+          <a href="docs/Especificacao_Requisitos_Regras_Negocio_BD.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>Baixar Especificacao de Requisitos (PDF)</span>
+          </a>
+          <button id="open-der-btn" type="button" class="btn-secondary">
+            <i class="fa-solid fa-diagram-project"></i>
+            <span>Visualizar DER (Modal)</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="lgpd-legend" aria-label="Legenda de classificacao de privacidade LGPD">
+        <span class="legend-title">Classificacao LGPD:</span>
+        <span class="badge badge-dps">[DPS] Dado Pessoal Sensivel</span>
+        <span class="badge badge-dp">[DP] Dado Pessoal</span>
+        <span class="badge badge-na">[N/A] Nao Aplicavel</span>
+      </div>
+
+      <div id="dictionary-container" class="dictionary-container"></div>
+
+      <div id="empty-state" class="empty-state card hidden">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <h3>Nenhum atributo ou tabela encontrado</h3>
+        <p>Ajuste os termos da pesquisa para visualizar os metadados correspondentes.</p>
+      </div>
+    </main>
+  </div>
+
+  <div id="der-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="der-modal-title">
+    <div class="modal-header">
+      <h2 id="der-modal-title">Diagrama Entidade-Relacionamento (DER) — Cosmetico Altivez</h2>
+      <div class="modal-controls">
+        <button id="zoom-in-btn" type="button" class="btn-modal" title="Aproximar (Zoom +)">
+          <i class="fa-solid fa-magnifying-glass-plus"></i> Zoom +
+        </button>
+        <button id="zoom-out-btn" type="button" class="btn-modal" title="Afastar (Zoom -)">
+          <i class="fa-solid fa-magnifying-glass-minus"></i> Zoom -
+        </button>
+        <button id="zoom-reset-btn" type="button" class="btn-modal" title="Restaurar tamanho original">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+        <button id="close-der-btn" type="button" class="btn-modal btn-close" aria-label="Fechar visualizador do DER">
+          <i class="fa-solid fa-xmark"></i> Fechar
+        </button>
+      </div>
+    </div>
+    <div class="modal-body" id="der-panzoom-wrapper">
+      <div id="panzoom-element" class="panzoom-target">
+        <img src="assets/der.png" alt="Diagrama Entidade-Relacionamento do banco de dados Cosmetico Altivez">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <span>Use o scroll do mouse para Zoom In / Zoom Out e arraste com o botao esquerdo para mover o diagrama livremente.</span>
+    </div>
+  </div>
+</body>
+</html>
